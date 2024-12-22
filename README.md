@@ -17,6 +17,7 @@
 * Prefer method references over lambdas
 * Operators on next line
 * Separate (logical) blocks with empty lines
+* Empty line after "jumps" (loops, `return`, `break`, `continue`)
 * "Chop" long expressions, arguments on separate lines
 * Continued lines indented twice
 * Mark methods without state as `static`
