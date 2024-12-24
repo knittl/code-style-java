@@ -21,6 +21,7 @@
 * "Chop" long expressions, arguments on separate lines
 * Continued lines indented twice
 * Mark methods without state as `static`
+* Lambdas with a single arg do not use parentheses: `x => x + 1`
 
 # Example
 
