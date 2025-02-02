@@ -10,7 +10,8 @@
 * Minimal diffs
 * Easily edited
 
-## Quick guidelines
+
+## Quick Guidelines
 
 * Max 100 - 120 chars per line
 * Prefer `final` (except lambda args)
@@ -23,6 +24,7 @@
 * Mark methods without state as `static`
 * Lambdas with a single arg do not use parentheses: `x => x + 1`
 * Prefer guard clauses over deep nesting
+
 
 # Example
 
@@ -125,7 +127,34 @@ public class MyClass extends MyBase implements Implementable {
 }
 ```
 
-## Open discussions
+
+## Best Practices
+
+Avoid reassigning default values:
+
+```
+// avoid:
+List<String> names = List.of();
+if (config) {
+  names = List.of(config.split(","));
+}
+
+// prefer:
+final List<String> names;
+if (config) {
+  names = List.of(config.split(","));
+} else {
+  names = List.of();
+}
+
+// or:
+final List<String> names = config
+  ? List.of(config.split(","));
+  : List.of();
+```
+
+
+## Open Discussions
 
 * Star-imports vs explicit imports
 * Naming of getters: Java beans `getValue()` vs record-style `value()`
