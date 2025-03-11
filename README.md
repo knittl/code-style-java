@@ -98,7 +98,8 @@ public class MyClass extends MyBase implements Implementable {
 
   @Override
   public boolean equals(final Object other) {
-    return other instanceof final MyClass that
+    return this == other
+        || other instanceof final MyClass that
         && Objects.equals(that.dependency, dependency);
   }
 
