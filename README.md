@@ -16,14 +16,16 @@
 * Max 100 - 120 chars per line
 * Prefer `final` (except lambda args)
 * Prefer method references over lambdas
-* Operators on next line
+* Operators on next line when wrapped (including `=`)
+* Always use braces for conditions and loops
 * Separate (logical) blocks with empty lines
 * Empty line after "jumps" (loops, `return`, `break`, `continue`)
 * "Chop" long expressions, arguments on separate lines
 * Continued lines indented twice
-* Mark methods without state as `static`
-* Lambdas with a single arg do not use parentheses: `x => x + 1`
+* Mark methods that do not access instance state as `static`
+* Lambdas with a single arg do not use parentheses: `x -> x + 1`
 * Prefer guard clauses over deep nesting
+* Continuation lines use twice the regular indent
 
 
 # Example
