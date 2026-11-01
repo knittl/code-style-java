@@ -43,18 +43,21 @@ public class MyClass extends MyBase implements Implementable {
 
   private static final long CLASS_ID = 1337L;
 
-  private final MyDependency dependency;
+  private final MyDependency dependency1;
+  private final MyDependency dependency2;
 
-  public MyClass(final MyDependency dependency) {
-    this.dependency = Objects.requireNonNull(dependency);
+  public MyClass(final MyDependency dependency1, final MyDependency dependency2) {
+    this.dependency1 = Objects.requireNonNull(dependency1);
+    this.dependency2 = Objects.requireNonNull(dependency2);
 
     final MyCache myCache = new MyExpiringCache(10, MINUTES);
     final MyOverlyLongName overlyLongInstance
         = new MyOverlyLongName(myCache, "arguments");
-    final MyThingWithTooManyArgs = new MyThingWithTooManyArgs(
+    final MyThingWithTooManyArgs thing = new MyThingWithTooManyArgs(
         myCache,
         overlyLongInstance,
-        dependency,
+        dependency1,
+        dependency2,
         "and",
         "some",
         "more",
@@ -88,26 +91,27 @@ public class MyClass extends MyBase implements Implementable {
   }
 
   public <T> void streams(final Collection<? extends T> elements) {
-    final List<T> list = elements.stream()
+    final Collection<T> items = elements.stream()
         .filter(Objects::nonNull)
         .map(x -> transform("mapping", x))
-        .collect(Collectors.toList());
+        .collect(Collectors.toSet());
 
-    dependency.send(list);
+    dependency1.send(items);
   }
 
   @Override
   public boolean equals(final Object other) {
     return this == other
         || other instanceof final MyClass that
-        && Objects.equals(that.dependency, dependency);
+        && Objects.equals(dependency1, that.dependency1)
+        && Objects.equals(dependency2, that.dependency2);
   }
 
   @Override
   public int hashCode() {
-    int hash = Objects.hashCode(dependency);
-    hash = 31 * hash + Objects.hashCode(/*another dependency*/);
-    return result;
+    int hash = Objects.hashCode(dependency1);
+    hash = 31 * hash + Objects.hashCode(dependency2);
+    return hash;
   }
 
   private static final class NestedClass
@@ -133,24 +137,24 @@ public class MyClass extends MyBase implements Implementable {
 
 Avoid reassigning default values:
 
-```
+```java
 // avoid:
 List<String> names = List.of();
-if (config) {
+if (config != null) {
   names = List.of(config.split(","));
 }
 
 // prefer:
 final List<String> names;
-if (config) {
+if (config != null) {
   names = List.of(config.split(","));
 } else {
   names = List.of();
 }
 
 // or:
-final List<String> names = config
-  ? List.of(config.split(","));
+final List<String> names = config != null
+  ? List.of(config.split(","))
   : List.of();
 ```
 
